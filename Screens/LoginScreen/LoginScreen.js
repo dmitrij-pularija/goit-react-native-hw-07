@@ -33,7 +33,7 @@ const Login = ({ navigation }) => {
     Keyboard.dismiss();
     setIsShowKeyboard(false);
     setHidePassword(true);
-    Alert.alert("Sign In", `${email}, ${password}`);
+    console.log(state);
     setstate(initialState);
   };
 

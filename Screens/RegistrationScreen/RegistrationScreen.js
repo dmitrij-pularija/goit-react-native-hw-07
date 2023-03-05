@@ -35,7 +35,7 @@ const Registr = ({ navigation }) => {
   const handleSubmit = () => {
     Keyboard.dismiss();
     setIsShowKeyboard(false);
-    Alert.alert("Sign Up", `${login}, ${email}, ${password}`);
+    console.log(state);
     setstate(initialState);
   };
 
