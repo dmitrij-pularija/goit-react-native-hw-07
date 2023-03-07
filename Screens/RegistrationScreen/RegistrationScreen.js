@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Feather } from '@expo/vector-icons';
 import {
   Text,
   View,
@@ -37,6 +38,7 @@ const Registr = ({ navigation }) => {
     setIsShowKeyboard(false);
     console.log(state);
     setstate(initialState);
+    navigation.navigate("Home");
   };
 
   const keyboardHide = () => {
@@ -62,10 +64,7 @@ const Registr = ({ navigation }) => {
             <View style={styles.box}>
               <View style={styles.add}>
                 <TouchableOpacity style={styles.addBtn}>
-                  <Image
-                    style={styles.addIcon}
-                    source={require("../../assets/images/plus.png")}
-                  />
+                <Feather name="plus" size={13} color="#FF6C00" />  
                 </TouchableOpacity>
               </View>
               <View style={styles.form}>

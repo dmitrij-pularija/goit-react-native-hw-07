@@ -42,10 +42,10 @@ const styles = StyleSheet.create({
     borderColor: "#FF6C00",
     borderRadius: 50,
   },
-  addIcon: {
-    height: "50%",
-    width: "50%",
-  },
+  // addIcon: {
+  //   height: "50%",
+  //   width: "50%",
+  // },
 
   form: {
     width: "100%",

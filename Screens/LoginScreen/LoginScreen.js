@@ -35,6 +35,7 @@ const Login = ({ navigation }) => {
     setHidePassword(true);
     console.log(state);
     setstate(initialState);
+    navigation.navigate("Home");
   };
 
   const keyboardHide = () => {
