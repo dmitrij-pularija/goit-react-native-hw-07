@@ -1,24 +1,7 @@
 import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    fontFamily: "Roboto-Regular",
-  },
   keyboard: {
     flex: 1,
-  },
-  image: {
-    flex: 1,
-    resizeMode: "cover",
-  },
-  box: {
-    marginTop: "auto",
-    justifyContent: "flex-end",
-    alignItems: "center",
-    paddingHorizontal: 16,
-    backgroundColor: "#fff",
-    borderTopStartRadius: 25,
-    borderTopEndRadius: 25,
   },
   form: {
     width: "100%",

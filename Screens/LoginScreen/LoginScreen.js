@@ -1,16 +1,14 @@
 import React, { useState } from "react";
+import Container from "../../components/Container/Container";
 import {
   Text,
   View,
   Platform,
-  ImageBackground,
   TextInput,
   TouchableOpacity,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
-  Alert,
-  Dimensions,
 } from "react-native";
 import styles from "./LoginScreen.styles.js";
 
@@ -43,7 +41,6 @@ const Login = ({ navigation }) => {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
   };
-  const { height, width } = Dimensions.get("window");
   const { email, password } = state;
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
@@ -51,61 +48,49 @@ const Login = ({ navigation }) => {
         style={styles.keyboard}
         behavior={Platform.OS == "ios" ? "padding" : "height"}
       >
-        <ImageBackground
-          style={{ ...styles.image, width: width, height: height }}
-          source={require("../../assets/images/background.jpg")}
-        >
-          <View style={styles.container}>
-            <View
-              style={{
-                ...styles.box,
-                paddingBottom: isShowKeyboard ? 80 : 144,
-              }}
-            >
-              <View style={styles.form}>
-                <Text style={styles.formTitle}>Login</Text>
-                <View style={styles.inputBlock}>
-                  <TextInput
-                    style={styles.input}
-                    value={email}
-                    onChangeText={emailHandler}
-                    onFocus={chengIsShowKeyboard}
-                    placeholder="E-mail address"
-                  />
-                  <View style={styles.passwordField}>
-                    <TextInput
-                      style={styles.input}
-                      secureTextEntry={hidePassword}
-                      value={password}
-                      onChangeText={passwordHandler}
-                      onFocus={chengIsShowKeyboard}
-                      placeholder="Password"
-                    />
-                    <TouchableOpacity
-                      style={styles.showBtn}
-                      onPress={chengHidePassword}
-                    >
-                      <Text style={styles.showBtnTitle}>Show</Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
+        <Container>
+          <View style={styles.form}>
+            <Text style={styles.formTitle}>Login</Text>
+            <View style={styles.inputBlock}>
+              <TextInput
+                style={styles.input}
+                value={email}
+                onChangeText={emailHandler}
+                onFocus={chengIsShowKeyboard}
+                placeholder="E-mail address"
+              />
+              <View style={styles.passwordField}>
+                <TextInput
+                  style={styles.input}
+                  secureTextEntry={hidePassword}
+                  value={password}
+                  onChangeText={passwordHandler}
+                  onFocus={chengIsShowKeyboard}
+                  placeholder="Password"
+                />
                 <TouchableOpacity
-                  activeOpacity={0.8}
-                  style={styles.btn}
-                  onPress={handleSubmit}
+                  style={styles.showBtn}
+                  onPress={chengHidePassword}
                 >
-                  <Text style={styles.btnTitle}>Sign In</Text>
+                  <Text style={styles.showBtnTitle}>Show</Text>
                 </TouchableOpacity>
               </View>
-              <Text
-                style={styles.limk}
-                onPress={() => navigation.navigate("Registration")}
-              >
-                Don't have an account? Sign Up
-              </Text>
             </View>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={styles.btn}
+              onPress={handleSubmit}
+            >
+              <Text style={styles.btnTitle}>Sign In</Text>
+            </TouchableOpacity>
           </View>
-        </ImageBackground>
+          <Text
+            style={{ ...styles.limk, marginBottom: isShowKeyboard ? 0 : 144 }}
+            onPress={() => navigation.navigate("Registration")}
+          >
+            Don't have an account? Sign Up
+          </Text>
+        </Container>
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );

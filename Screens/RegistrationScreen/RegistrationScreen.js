@@ -1,18 +1,15 @@
 import React, { useState } from "react";
-import { Feather } from '@expo/vector-icons';
+import Container from "../../components/Container/Container";
+import Avatar from "../../components/Avatar/Avatar";
 import {
   Text,
   View,
-  Image,
   Platform,
-  ImageBackground,
   TextInput,
   TouchableOpacity,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
-  Alert,
-  Dimensions,
 } from "react-native";
 import styles from "./RegistrationScreen.styles.js";
 
@@ -46,27 +43,15 @@ const Registr = ({ navigation }) => {
     setIsShowKeyboard(false);
     setHidePassword(true);
   };
-
-  const { height, width } = Dimensions.get("window");
   const { login, email, password } = state;
-
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
       <KeyboardAvoidingView
         style={styles.keyboard}
         behavior={Platform.OS == "ios" ? "padding" : "height"}
       >
-        <ImageBackground
-          style={{ ...styles.image, width: width, height: height }}
-          source={require("../../assets/images/background.jpg")}
-        >
-          <View style={styles.container}>
-            <View style={styles.box}>
-              <View style={styles.add}>
-                <TouchableOpacity style={styles.addBtn}>
-                <Feather name="plus" size={13} color="#FF6C00" />  
-                </TouchableOpacity>
-              </View>
+    <Container>
+     <Avatar />
               <View style={styles.form}>
                 <Text style={styles.formTitle}>Registration</Text>
                 <View style={styles.inputBlock}>
@@ -76,13 +61,18 @@ const Registr = ({ navigation }) => {
                     onFocus={() => setIsShowKeyboard(true)}
                     onChangeText={loginHandler}
                     placeholder="Login"
+                    autoCapitalize="none"
                   />
                   <TextInput
+                    // style={{...styles.input,  borderColor: isFocused ? "#FF6C00" : "#F6F6F6" }}
                     style={styles.input}
                     value={email}
                     onFocus={() => setIsShowKeyboard(true)}
                     onChangeText={emailHandler}
                     placeholder="E-mail address"
+                    inputMode="email"
+                    keyboardType="email-address"
+                    autoCapitalize="none"
                   />
                   <View style={styles.passwordField}>
                     <TextInput
@@ -110,14 +100,12 @@ const Registr = ({ navigation }) => {
                 </TouchableOpacity>
               </View>
               <Text
-                style={styles.limk}
+                style={{ ...styles.limk, marginBottom: isShowKeyboard ? 0 : 78 }}
                 onPress={() => navigation.navigate("Login")}
               >
                 Already have an account? Sign In
               </Text>
-            </View>
-          </View>
-        </ImageBackground>
+    </Container>
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );

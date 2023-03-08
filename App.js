@@ -6,10 +6,6 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Registr from "./Screens/RegistrationScreen/RegistrationScreen";
 import Login from "./Screens/LoginScreen/LoginScreen";
 import Home from "./Screens/Home/Home";
-import PostsScreen from "./Screens/PostsScreen/PostsScreen";
-import CommentsScreen from "./Screens/CommentsScreen/CommentsScreen";
-import CreatePostsScreen from "./Screens/CreatePostsScreen/CreatePostsScreen";
-import ProfileScreen from "./Screens/ProfileScreen/ProfileScreen";
 
 const MainStack = createStackNavigator();
 
@@ -36,17 +32,25 @@ const App = () => {
   }, []);
 
   if (!isReady) return null;
-  
+
   return (
     <NavigationContainer>
       <MainStack.Navigator initialRouteName="Login">
-        <MainStack.Screen name="Registration" component={Registr} options={{ headerShown: false,}} />
-        <MainStack.Screen name="Login" component={Login} options={{ headerShown: false,}} />
-        <MainStack.Screen name="Home" component={Home} options={{ headerShown: false,}} />
-        {/* <MainStack.Screen name="PostsScreen" component={PostsScreen} options={{ title: "Posts" }} />
-        <MainStack.Screen name="CommentsScreen" component={CommentsScreen} options={{ title: "Comments" }} />
-        <MainStack.Screen name="CreatePostsScreen" component={CreatePostsScreen} options={{ title: "Create post" }} />
-        <MainStack.Screen name="ProfileScreen" component={ProfileScreen} options={{ headerShown: false,}}/> */}
+        <MainStack.Screen
+          name="Registration"
+          component={Registr}
+          options={{ headerShown: false }}
+        />
+        <MainStack.Screen
+          name="Login"
+          component={Login}
+          options={{ headerShown: false }}
+        />
+        <MainStack.Screen
+          name="Home"
+          component={Home}
+          options={{ headerShown: false }}
+        />
       </MainStack.Navigator>
     </NavigationContainer>
   );
