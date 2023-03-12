@@ -5,6 +5,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Registr from "./Screens/RegistrationScreen/RegistrationScreen";
 import Login from "./Screens/LoginScreen/LoginScreen";
+import Comments from "./Screens/CommentsScreen/CommentsScreen";
+import CreatePhoto from "./components/CreatePhoto/CreatePhoto";
+import Map from "./Screens/MapScreen/MapScreen";
 import Home from "./Screens/Home/Home";
 
 const MainStack = createStackNavigator();
@@ -50,6 +53,21 @@ const App = () => {
           name="Home"
           component={Home}
           options={{ headerShown: false }}
+        />
+        <MainStack.Screen
+          name="Map"
+          component={Map}
+          options={{ headerShown: true }}
+        />
+        <MainStack.Screen
+          name="Comments"
+          component={Comments}
+          options={{ headerShown: true }}
+        />
+        <MainStack.Screen
+          name="CreatePhoto"
+          component={CreatePhoto}
+          options={{ headerShown: true }}
         />
       </MainStack.Navigator>
     </NavigationContainer>

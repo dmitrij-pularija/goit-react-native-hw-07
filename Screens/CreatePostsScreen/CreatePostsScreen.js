@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Feather } from "@expo/vector-icons";
+import * as Location from "expo-location";
 import {
   Text,
   View,
+  Alert,
+  Image,
   TextInput,
   Platform,
   TouchableOpacity,
@@ -13,49 +16,99 @@ import {
 import styles from "./CreatePostsScreen.styles.js";
 
 const initialState = {
-  image: "",
+  id: "",
   name: "",
-  location: "",
+  address: "",
+  coordinate: {},
+  uri: "",
 };
 
-const CreatePostsScreen = ({ navigation }) => {
+const CreatePostsScreen = ({ navigation, route }) => {
+  const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [state, setState] = useState(initialState);
-  const imageHandler = () =>
-    setState((prevState) => ({ ...prevState, image: "path" }));
+  const imageHandler = () => navigation.navigate("CreatePhoto");
   const nameHandler = (value) =>
     setState((prevState) => ({ ...prevState, name: value }));
-  const locationdHandler = (value) =>
-    setState((prevState) => ({ ...prevState, location: value }));
+  const addressHandler = (value) =>
+    setState((prevState) => ({ ...prevState, address: value }));
   const handleSubmit = () => {
     Keyboard.dismiss();
-    console.log(state);
+    navigation.navigate("PostsScreen", { ...state });
     setState(initialState);
-    navigation.navigate("PostsScreen");
   };
+  useEffect(() => {
+    if (route.params) {
+      setState((prevState) => ({ ...prevState, ...route.params }));
+      GetCurrentLocation();
+    }
+  }, [route.params]);
+
+  const GetCurrentLocation = async () => {
+    let permission = await Location.requestForegroundPermissionsAsync();
+    if (!permission.granted) {
+      Alert.alert(
+        "Permission not granted",
+        "Allow the app to use location service.",
+        [{ text: "OK" }],
+        { cancelable: false }
+      );
+    }
+    const { coords } = await Location.getCurrentPositionAsync();
+
+    if (coords) {
+      const { latitude, longitude } = coords;
+      setState((prevState) => ({
+        ...prevState,
+        coordinate: { latitude, longitude },
+      }));
+      const response = await Location.reverseGeocodeAsync({
+        latitude,
+        longitude,
+      });
+      const { country, city, subregion } = response[0];
+      setState((prevState) => ({
+        ...prevState,
+        address: `${country}, ${city ? city : subregion}`,
+      }));
+    }
+  };
+  const chengIsShowKeyboard = () => setIsShowKeyboard(true);
+  const keyboardHide = () => {
+    setIsShowKeyboard(false);
+    Keyboard.dismiss();
+  };
+
   const handleDel = () => setState(initialState);
-  const { name, location } = state;
+  const { name, address, uri } = state;
 
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+    <TouchableWithoutFeedback onPress={keyboardHide}>
       <KeyboardAvoidingView
         style={styles.container}
         behavior={Platform.OS == "ios" ? "padding" : "height"}
       >
-        <View style={styles.imageBox}>
-          <TouchableOpacity
-            style={styles.cameraButton}
-            activeOpacity={0.8}
-            onPress={imageHandler}
+        {uri ? (
+          <Image source={{ uri }} style={styles.imageBox} />
+        ) : (
+          <View
+            style={{ ...styles.imageBox, marginTop: isShowKeyboard ? -32 : 32 }}
           >
-            <Feather name="camera" size={24} color="#BDBDBD" />
-          </TouchableOpacity>
-        </View>
+            <TouchableOpacity
+              style={styles.cameraButton}
+              activeOpacity={0.8}
+              onPress={imageHandler}
+            >
+              <Feather name="camera" size={24} color="#BDBDBD" />
+            </TouchableOpacity>
+          </View>
+        )}
         <Text style={styles.text}>Upload a photo</Text>
         <View style={styles.inputBlock}>
           <TextInput
             style={styles.input}
             value={name}
             onChangeText={nameHandler}
+            onFocus={chengIsShowKeyboard}
             placeholder="Name..."
             autoCapitalize="none"
           />
@@ -68,10 +121,11 @@ const CreatePostsScreen = ({ navigation }) => {
             />
             <TextInput
               style={{ ...styles.input, ...styles.locationInput }}
-              onChangeText={locationdHandler}
+              onChangeText={addressHandler}
+              onFocus={chengIsShowKeyboard}
               placeholder="Location..."
               autoCapitalize="none"
-              value={location}
+              value={address}
             />
           </View>
         </View>

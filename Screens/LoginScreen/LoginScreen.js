@@ -37,10 +37,11 @@ const Login = ({ navigation }) => {
   };
 
   const keyboardHide = () => {
-    setHidePassword(true);
     setIsShowKeyboard(false);
+    setHidePassword(true);
     Keyboard.dismiss();
   };
+  console.log(isShowKeyboard);
   const { email, password } = state;
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
@@ -85,7 +86,7 @@ const Login = ({ navigation }) => {
             </TouchableOpacity>
           </View>
           <Text
-            style={{ ...styles.limk, marginBottom: isShowKeyboard ? 0 : 144 }}
+            style={{ ...styles.limk, paddingBottom: isShowKeyboard ? 0 : 144 }}
             onPress={() => navigation.navigate("Registration")}
           >
             Don't have an account? Sign Up

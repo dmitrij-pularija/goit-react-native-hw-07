@@ -9,11 +9,18 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "#212121",
     marginTop: 92,
-    marginBottom: 33,
     fontFamily: "Roboto-Bold",
     fontSize: 30,
     lineHeight: 35,
     textAlign: "center",
+  },
+  list: {
+    flex: 1,
+    width: "100%",
+    display: "flex",
+    marginVertical: 32,
+    flexDirection: "column",
+    gap: 32,
   },
 });
 

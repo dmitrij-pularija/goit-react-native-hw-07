@@ -1,16 +1,22 @@
-import { View, ImageBackground, Dimensions } from "react-native";
+import {
+  View,
+  ImageBackground,
+  Dimensions,
+  ScrollView,
+  SafeAreaView,
+} from "react-native";
 import styles from "./Container.styles.js";
 
 const Container = ({ children }) => {
-  const { height, width } = Dimensions.get("window");
-
   return (
     <ImageBackground
-      style={{ ...styles.image, width: width, height: height }}
+      style={styles.image}
       source={require("../../assets/images/background.jpg")}
     >
       <View style={styles.container}>
-        <View style={styles.box}>{children}</View>
+        <ScrollView style={styles.scroll}>
+          <View style={styles.box}>{children}</View>
+        </ScrollView>
       </View>
     </ImageBackground>
   );

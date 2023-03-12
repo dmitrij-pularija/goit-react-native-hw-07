@@ -50,62 +50,61 @@ const Registr = ({ navigation }) => {
         style={styles.keyboard}
         behavior={Platform.OS == "ios" ? "padding" : "height"}
       >
-    <Container>
-     <Avatar />
-              <View style={styles.form}>
-                <Text style={styles.formTitle}>Registration</Text>
-                <View style={styles.inputBlock}>
-                  <TextInput
-                    style={styles.input}
-                    value={login}
-                    onFocus={() => setIsShowKeyboard(true)}
-                    onChangeText={loginHandler}
-                    placeholder="Login"
-                    autoCapitalize="none"
-                  />
-                  <TextInput
-                    // style={{...styles.input,  borderColor: isFocused ? "#FF6C00" : "#F6F6F6" }}
-                    style={styles.input}
-                    value={email}
-                    onFocus={() => setIsShowKeyboard(true)}
-                    onChangeText={emailHandler}
-                    placeholder="E-mail address"
-                    inputMode="email"
-                    keyboardType="email-address"
-                    autoCapitalize="none"
-                  />
-                  <View style={styles.passwordField}>
-                    <TextInput
-                      style={styles.input}
-                      secureTextEntry={hidePassword}
-                      value={password}
-                      onFocus={() => setIsShowKeyboard(true)}
-                      onChangeText={passwordHandler}
-                      placeholder="Password"
-                    />
-                    <TouchableOpacity
-                      style={styles.showBtn}
-                      onPress={chengHidePassword}
-                    >
-                      <Text style={styles.showBtnTitle}>Show</Text>
-                    </TouchableOpacity>
-                  </View>
-                </View>
+        <Container>
+          <Avatar />
+          <View style={styles.form}>
+            <Text style={styles.formTitle}>Registration</Text>
+            <View style={styles.inputBlock}>
+              <TextInput
+                style={styles.input}
+                value={login}
+                onFocus={() => setIsShowKeyboard(true)}
+                onChangeText={loginHandler}
+                placeholder="Login"
+                autoCapitalize="none"
+              />
+              <TextInput
+                style={styles.input}
+                value={email}
+                onFocus={() => setIsShowKeyboard(true)}
+                onChangeText={emailHandler}
+                placeholder="E-mail address"
+                inputMode="email"
+                keyboardType="email-address"
+                autoCapitalize="none"
+              />
+              <View style={styles.passwordField}>
+                <TextInput
+                  style={styles.input}
+                  secureTextEntry={hidePassword}
+                  value={password}
+                  onFocus={() => setIsShowKeyboard(true)}
+                  onChangeText={passwordHandler}
+                  placeholder="Password"
+                />
                 <TouchableOpacity
-                  activeOpacity={0.8}
-                  style={styles.btn}
-                  onPress={handleSubmit}
+                  style={styles.showBtn}
+                  onPress={chengHidePassword}
                 >
-                  <Text style={styles.btnTitle}>Sign Up</Text>
+                  <Text style={styles.showBtnTitle}>Show</Text>
                 </TouchableOpacity>
               </View>
-              <Text
-                style={{ ...styles.limk, marginBottom: isShowKeyboard ? 0 : 78 }}
-                onPress={() => navigation.navigate("Login")}
-              >
-                Already have an account? Sign In
-              </Text>
-    </Container>
+            </View>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={styles.btn}
+              onPress={handleSubmit}
+            >
+              <Text style={styles.btnTitle}>Sign Up</Text>
+            </TouchableOpacity>
+          </View>
+          <Text
+            style={{ ...styles.limk, marginBottom: isShowKeyboard ? 0 : 78 }}
+            onPress={() => navigation.navigate("Login")}
+          >
+            Already have an account? Sign In
+          </Text>
+        </Container>
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
