@@ -1,4 +1,6 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../redux/auth/selectors";
 import { useLinkTo } from "@react-navigation/native";
 import { View, Text } from "react-native";
 import Container from "../../components/Container/Container";
@@ -9,6 +11,8 @@ import PostsCard from "../../components/PostsCard/PostsCard";
 import data from "../../assets/data";
 
 const ProfileScreen = ({ navigation }) => {
+  const { nickName } = useSelector(selectUser);
+
   const linkTo = useLinkTo();
 
   const mapView = (coordinate) => {
@@ -24,7 +28,7 @@ const ProfileScreen = ({ navigation }) => {
       <View style={styles.logOut}>
         <HeaderButton name={"log-out"} onPress={() => linkTo("/Login")} />
       </View>
-      <Text style={styles.profileTitle}>Natali Romanova</Text>
+      <Text style={styles.profileTitle}>{nickName}</Text>
       <View style={styles.list}>
         {data.map(({ id, name, address, coordinate, uri }) => (
           <PostsCard

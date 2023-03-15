@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
+import { Provider } from "react-redux";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Registr from "./Screens/RegistrationScreen/RegistrationScreen";
@@ -9,6 +10,7 @@ import Comments from "./Screens/CommentsScreen/CommentsScreen";
 import CreatePhoto from "./components/CreatePhoto/CreatePhoto";
 import Map from "./Screens/MapScreen/MapScreen";
 import Home from "./Screens/Home/Home";
+import { store } from "./redux/store";
 
 const MainStack = createStackNavigator();
 
@@ -37,6 +39,7 @@ const App = () => {
   if (!isReady) return null;
 
   return (
+    <Provider store={store}>
     <NavigationContainer>
       <MainStack.Navigator initialRouteName="Login">
         <MainStack.Screen
@@ -71,6 +74,7 @@ const App = () => {
         />
       </MainStack.Navigator>
     </NavigationContainer>
+    </Provider>
   );
 };
 export default App;

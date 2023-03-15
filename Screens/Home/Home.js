@@ -6,13 +6,21 @@ import CreatePostsScreen from "../CreatePostsScreen/CreatePostsScreen";
 import ProfileScreen from "../ProfileScreen/ProfileScreen";
 import HeaderButton from "../../components/Button/Button";
 
+// import { selectUser } from "../../redux/auth/selectors";
+
+import { signout } from "../../redux/auth/operations";
+import { useDispatch } from "react-redux";
+
 const Tabs = createBottomTabNavigator();
 const Home = ({ navigation }) => {
+  const dispatch = useDispatch();
   const icons = {
     PostsScreen: "grid",
     CreatePostsScreen: "plus",
     ProfileScreen: "user",
   };
+
+  // console.log(useSelector(selectUser));
   return (
     <Tabs.Navigator
       initialRouteName="PostsScreen"
@@ -65,7 +73,7 @@ const Home = ({ navigation }) => {
             headerRight: () => (
               <HeaderButton
                 name={"log-out"}
-                onPress={() => navigation.navigate("Login")}
+                onPress={() => dispatch(signout())}
               />
             ),
             headerRightContainerStyle: { paddingRight: 16 },

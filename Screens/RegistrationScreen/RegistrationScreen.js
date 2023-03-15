@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import Container from "../../components/Container/Container";
 import Avatar from "../../components/Avatar/Avatar";
+import styles from "./RegistrationScreen.styles";
+import { initialRegistr } from '../../services/initial';
+import { signup } from "../../redux/auth/operations";
+import { useDispatch } from "react-redux";
 import {
   Text,
   View,
@@ -11,16 +15,10 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
-import styles from "./RegistrationScreen.styles.js";
-
-const initialState = {
-  login: "",
-  email: "",
-  password: "",
-};
 
 const Registr = ({ navigation }) => {
-  const [state, setstate] = useState(initialState);
+  const dispatch = useDispatch();
+  const [state, setstate] = useState(initialRegistr);
   const [hidePassword, setHidePassword] = useState(true);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const chengHidePassword = () => setHidePassword(!hidePassword);
@@ -33,8 +31,9 @@ const Registr = ({ navigation }) => {
   const handleSubmit = () => {
     Keyboard.dismiss();
     setIsShowKeyboard(false);
-    console.log(state);
-    setstate(initialState);
+    dispatch(signup(state));
+    // console.log(state);
+    setstate(initialRegistr);
     navigation.navigate("Home");
   };
 

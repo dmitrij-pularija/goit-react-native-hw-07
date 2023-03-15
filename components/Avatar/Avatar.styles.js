@@ -8,6 +8,14 @@ const styles = StyleSheet.create({
     height: 120,
     backgroundColor: "#F6F6F6",
     borderRadius: 16,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  avatar: {
+    flex: 1,
+    width: "100%",
+    resizeMode: "cover",
+    borderRadius: 16,
   },
   addBtn: {
     position: "absolute",

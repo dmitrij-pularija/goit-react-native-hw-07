@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import Container from "../../components/Container/Container";
+import { signin } from "../../redux/auth/operations";
+import { initialLogin } from '../../services/initial';
+import { useDispatch } from "react-redux";
 import {
   Text,
   View,
@@ -12,13 +15,9 @@ import {
 } from "react-native";
 import styles from "./LoginScreen.styles.js";
 
-const initialState = {
-  email: "",
-  password: "",
-};
-
 const Login = ({ navigation }) => {
-  const [state, setstate] = useState(initialState);
+  const dispatch = useDispatch();
+  const [state, setstate] = useState(initialLogin);
   const [hidePassword, setHidePassword] = useState(true);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const chengHidePassword = () => setHidePassword(!hidePassword);
@@ -27,12 +26,14 @@ const Login = ({ navigation }) => {
     setstate((prevState) => ({ ...prevState, email: value }));
   const passwordHandler = (value) =>
     setstate((prevState) => ({ ...prevState, password: value }));
+
   const handleSubmit = () => {
     Keyboard.dismiss();
     setIsShowKeyboard(false);
     setHidePassword(true);
-    console.log(state);
-    setstate(initialState);
+    dispatch(signin(state));
+    // console.log(state);
+    setstate(initialLogin);
     navigation.navigate("Home");
   };
 
@@ -41,7 +42,7 @@ const Login = ({ navigation }) => {
     setHidePassword(true);
     Keyboard.dismiss();
   };
-  console.log(isShowKeyboard);
+  // console.log(isShowKeyboard);
   const { email, password } = state;
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
@@ -59,6 +60,9 @@ const Login = ({ navigation }) => {
                 onChangeText={emailHandler}
                 onFocus={chengIsShowKeyboard}
                 placeholder="E-mail address"
+                inputMode="email"
+                keyboardType="email-address"
+                autoCapitalize="none"
               />
               <View style={styles.passwordField}>
                 <TextInput

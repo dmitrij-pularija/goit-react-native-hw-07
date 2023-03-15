@@ -1,16 +1,21 @@
 import { View, Text, Image } from "react-native";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../redux/auth/selectors";
 import styles from "./UserCard.styles.js";
 
 const UserCard = () => {
+  const { nickName, email, photoURL } = useSelector(selectUser);
   return (
     <View style={styles.user}>
       <Image
         style={styles.image}
-        source={require("../../assets/images/user.jpg")}
+        source={
+          photoURL ? { uri: photoURL } : require("../../assets/images/avatar.png")
+        }
       />
       <View style={styles.info}>
-        <Text style={styles.name}>Natali Romanova</Text>
-        <Text style={styles.email}>email@example.com</Text>
+        <Text style={styles.name}>{nickName}</Text>
+        <Text style={styles.email}>{email}</Text>
       </View>
     </View>
   );

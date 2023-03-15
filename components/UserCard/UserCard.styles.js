@@ -12,6 +12,7 @@ gap: 8,
     width: 60,
     height: 60,
     borderRadius: 16,
+    backgroundColor: "#F6F6F6",
   },
   info: {
     display: "flex",
