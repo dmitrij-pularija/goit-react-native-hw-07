@@ -1,7 +1,10 @@
 import { Camera, CameraType } from 'expo-camera';
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
+import { sendPhoto } from "../../redux/prestate/operations";
+import { setTimeStamp } from "../../redux/prestate/slice";
 import styles from "./CreatePhoto.styles.js";
 import { Feather } from "@expo/vector-icons";
+import { useDispatch } from "react-redux";
 import {
     Text,
     View,
@@ -10,13 +13,18 @@ import {
   } from "react-native";
 
 const CreatePhoto = ({ navigation }) => {
+  const dispatch = useDispatch();
     const [camera, setCamera] = useState(null);
     const [type, setType] = useState(CameraType.back);
     const [permission, requestPermission] = Camera.useCameraPermissions();
     
     const takePhoto = async () => {
         const { uri } = await camera.takePictureAsync();
-    navigation.navigate("CreatePostsScreen", { uri } );
+        const time = Date.now().toString();
+        console.log(time);
+        dispatch(setTimeStamp(time));
+        dispatch(sendPhoto({uri, time}));
+    navigation.navigate("CreatePosts");
       };
 
     const toggleCameraType = () => {

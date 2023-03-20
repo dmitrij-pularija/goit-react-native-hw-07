@@ -8,8 +8,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   mapStyle: {
-    width: Dimensions.get("window").width,
-    height: Dimensions.get("window").height,
+    flex: 1,
+    width: "100%",
+    // height: "90%"
+    // width: Dimensions.get("window").width,
+    // height: Dimensions.get("window").height,
   },
 });
 

@@ -5,6 +5,16 @@ export const initialAuth = {
     photoURL: null,
   };
 
+  export const initialData = {
+    posts: [],
+    comments: [],
+  };
+
+  export const initialPrestate = {
+    uri: null,
+    timeStamp: null,
+  };
+
   export const initialLogin = {
     email: "",
     password: "",
@@ -14,4 +24,16 @@ export const initialAuth = {
     login: "",
     email: "",
     password: "",
+  };
+
+  export const initialPost = {
+    name: "",
+    adress: "",
+    coordinate: {},
+  };
+
+  export const icons = {
+    Posts: "grid",
+    CreatePosts: "plus",
+    Profile: "user",
   };

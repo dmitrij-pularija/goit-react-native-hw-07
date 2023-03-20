@@ -10,7 +10,9 @@ const UserCard = () => {
       <Image
         style={styles.image}
         source={
-          photoURL ? { uri: photoURL } : require("../../assets/images/avatar.png")
+          photoURL ? { uri: photoURL } : { uri: "../../assets/images/avatar.png" }
+
+          // photoURL ? { uri: photoURL } : require("../../assets/images/avatar.png")
         }
       />
       <View style={styles.info}>

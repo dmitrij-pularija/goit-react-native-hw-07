@@ -1,27 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
-// import { register, logIn, logOut, refreshUser } from './operations';
 import { initialAuth } from '../../services/initial';
-import { signup, signin, signout } from "./operations";
-// const authSlice = createSlice({
-//     name: 'auth',
-//     initialState: initialAuth,
-//     reducers: {
-//         setUserProfile: (state, { payload }) => ({
-//             userId: payload.userId,
-//             nickName: payload.nickName,
-//             email: payload.email,
-//             photoURL: payload.photoURL,
-//     }),
-//     },
-// });
+import { signup, signin, signout, refresh } from "./operations";
 
 const authSlice = createSlice({
     name: 'auth',
     initialState: initialAuth,
     extraReducers: builder => {
     builder
-    .addCase(signup.fulfilled, (state, {payload}) => {
-        const { uid, displayName, email, photoURL } = payload;
+    .addCase(signup.fulfilled, (state, {payload: { uid, displayName, email, photoURL }}) => {
         state.userId = uid;
         state.nickName = displayName;
         state.email = email;
@@ -33,11 +19,17 @@ const authSlice = createSlice({
         state.email = email;
         state.photoURL = photoURL;
     })
-    .addCase(signout.fulfilled, (state) => state = initialAuth)
-
+    .addCase(refresh.fulfilled, (state, {payload: { uid, displayName, email, photoURL }}) => {
+        state.userId = uid;
+        state.nickName = displayName;
+        state.email = email;
+        state.photoURL = photoURL;
+    })
+    .addCase(signout.fulfilled, state => state = initialAuth)
+    .addCase(refresh.rejected, state => state = initialAuth)
     }
 });
 
-export const authReducer = authSlice.reducer;
-export const { setUserProfile } = authSlice.actions;
+const authReducer = authSlice.reducer;
 
+export default authReducer;

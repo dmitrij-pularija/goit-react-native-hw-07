@@ -27,35 +27,47 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
   },
   list: {
+    // flex:1,
+    // height: "70%",
     width: "100%",
     display: "flex",
-    flexDirection: "column",
+    // flexDirection: "column",
     marginVertical: 32,
     gap: 24,
   },
   item: {
     width: "100%",
     display: "flex",
-    flexDirection: "row",
+    // flexDirection: "row",
     gap: 16,
+    // marginBottom: 24,
   },
   avatar: {
     width: 28,
     height: 28,
     resizeMode: "cover",
     borderRadius: 50,
+    backgroundColor: "#F6F6F6",
   },
   avatarBox: {
     justifyContent: "flex-start",
     alignItems: "flex-start",
   },
-  textBox: {
-    width: "90%",
+  guestComment: {
+    flex: 1,
     padding: 16,
     backgroundColor: "rgba(0, 0, 0, 0.03)",
     borderTopRightRadius: 6,
     borderBottomLeftRadius: 6,
     borderBottomRightRadius: 6,
+  },
+  ownerComment: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: "rgba(0, 0, 0, 0.03)",
+    borderBottomLeftRadius: 6,
+    borderBottomRightRadius: 6,
+    borderTopLeftRadius: 6,
   },
   coment: {
     fontSize: 13,
@@ -63,10 +75,9 @@ const styles = StyleSheet.create({
     color: "#212121",
     textAlign: "left",
   },
-
   data: {
     color: "#BDBDBD",
-    textAlign: "right",
+    // textAlign: "right",
     marginTop: 8,
     fontSize: 10,
     lineHeight: 12,
@@ -78,7 +89,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 16,
   },
-
   input: {
     width: "100%",
     height: 59,

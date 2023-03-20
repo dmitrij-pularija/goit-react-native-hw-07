@@ -1,8 +1,9 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import MapView, { Marker } from "react-native-maps";
+import { selectPosts } from "../../redux/data/selectors";
 import { View } from "react-native";
-import styles from "./MapScreen.styles.js";
-import data from "../../assets/data";
+import styles from "./Map.styles.js";
 
 const Map = ({
   navigation,
@@ -10,6 +11,8 @@ const Map = ({
     params: { latitude, longitude },
   },
 }) => {
+  const posts = useSelector(selectPosts);
+
   return (
     <View style={styles.container}>
       <MapView
@@ -20,15 +23,20 @@ const Map = ({
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
-        mapType="standard"
+        mapType={"standard"}
         minZoomLevel={15}
+        // zoomControlEnabled={true}
+        // showsUserLocation={true}
+        // toolbarEnabled={true}
+        // loadingEnabled="true"
       >
-        {data.map(({ id, name, address, coordinate }) => (
+        {posts.map(({ postId, name, adress, coordinate, uri}) => (
           <Marker
-            key={id}
-            title={address}
+            key={postId}
+            title={adress}
             coordinate={coordinate}
             description={name}
+            // image={uri}
           />
         ))}
       </MapView>

@@ -1,29 +1,21 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Feather } from "@expo/vector-icons";
-import PostsScreen from "../PostsScreen/PostsScreen";
-import CreatePostsScreen from "../CreatePostsScreen/CreatePostsScreen";
-import ProfileScreen from "../ProfileScreen/ProfileScreen";
-import HeaderButton from "../../components/Button/Button";
-
-// import { selectUser } from "../../redux/auth/selectors";
-
-import { signout } from "../../redux/auth/operations";
+import Posts from "./Posts/Posts";
+import CreatePosts from "./CreatePosts/CreatePosts";
+import Profile from "./Profile/Profile";
+import HeaderButton from "../components/Button/Button";
+import { icons } from "../services/initial";
+import { signout } from "../redux/auth/operations";
 import { useDispatch } from "react-redux";
 
 const Tabs = createBottomTabNavigator();
 const Home = ({ navigation }) => {
   const dispatch = useDispatch();
-  const icons = {
-    PostsScreen: "grid",
-    CreatePostsScreen: "plus",
-    ProfileScreen: "user",
-  };
-
-  // console.log(useSelector(selectUser));
+  const logOut = () => dispatch(signout());
   return (
     <Tabs.Navigator
-      initialRouteName="PostsScreen"
+      initialRouteName="Posts"
       screenOptions={({ route: { name } }) => ({
         tabBarIcon: ({ color }) => (
           <Feather name={icons[name]} size={24} color={color} />
@@ -66,28 +58,28 @@ const Home = ({ navigation }) => {
         }}
       >
         <Tabs.Screen
-          name="PostsScreen"
-          component={PostsScreen}
+          name="Posts"
+          component={Posts}
           options={{
             headerTitle: "Posts",
             headerRight: () => (
               <HeaderButton
                 name={"log-out"}
-                onPress={() => dispatch(signout())}
+                onPress={logOut}
               />
             ),
             headerRightContainerStyle: { paddingRight: 16 },
           }}
         />
         <Tabs.Screen
-          name="CreatePostsScreen"
-          component={CreatePostsScreen}
+          name="CreatePosts"
+          component={CreatePosts}
           options={{
             headerTitle: "Create post",
             headerLeft: () => (
               <HeaderButton
                 name={"arrow-left"}
-                onPress={() => navigation.navigate("PostsScreen")}
+                onPress={() => navigation.navigate("Posts")}
               />
             ),
             headerLeftContainerStyle: { paddingLeft: 16 },
@@ -97,8 +89,8 @@ const Home = ({ navigation }) => {
         />
       </Tabs.Group>
       <Tabs.Screen
-        name="ProfileScreen"
-        component={ProfileScreen}
+        name="Profile"
+        component={Profile}
         options={{ headerShown: false }}
       />
     </Tabs.Navigator>

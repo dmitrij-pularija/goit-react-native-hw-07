@@ -1,5 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Feather } from "@expo/vector-icons";
+import { initialPost } from '../../services/initial';
+import { useSelector, useDispatch } from "react-redux";
+import { selectUser } from "../../redux/auth/selectors";
+import { createPost, getPosts } from "../../redux/data/operations";
+import { setTimeStamp } from "../../redux/prestate/slice";
+import { delPhoto } from "../../redux/prestate/operations";
+import { selectPrestate } from "../../redux/prestate/selectors";
 import * as Location from "expo-location";
 import {
   Text,
@@ -13,35 +20,49 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
-import styles from "./CreatePostsScreen.styles.js";
+import styles from "./CreatePosts.styles.js";
 
-const initialState = {
-  id: "",
-  name: "",
-  address: "",
-  coordinate: {},
-  uri: "",
-};
+// const initialState = {
+//   name: "",
+//   adress: "",
+//   coordinate: {},
+// };
 
-const CreatePostsScreen = ({ navigation, route }) => {
+const CreatePosts = ({ navigation}) => {
+  const dispatch = useDispatch();
+  const { uri, timeStamp} = useSelector(selectPrestate);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
-  const [state, setState] = useState(initialState);
-  const imageHandler = () => navigation.navigate("CreatePhoto");
+  const [state, setState] = useState(initialPost);
+  const { name, adress, coordinate } = state;
+  const author = useSelector(selectUser);
+
+  const imageHandler = () => {
+      GetCurrentLocation();
+  navigation.navigate("CreatePhoto");
+  };
   const nameHandler = (value) =>
     setState((prevState) => ({ ...prevState, name: value }));
-  const addressHandler = (value) =>
-    setState((prevState) => ({ ...prevState, address: value }));
+  const adressHandler = (value) =>
+    setState((prevState) => ({ ...prevState, adress: value }));
   const handleSubmit = () => {
     Keyboard.dismiss();
-    navigation.navigate("PostsScreen", { ...state });
-    setState(initialState);
+    // const id = uuidv4();
+    // dispatch(createPost({author, uri, name, adress, coordinate}));
+    dispatch(createPost({ author, uri, name, adress, coordinate }));
+
+    setState(initialPost);
+    dispatch(setTimeStamp(null));
+    dispatch(getPosts());
+    navigation.navigate("Posts");
   };
-  useEffect(() => {
-    if (route.params) {
-      setState((prevState) => ({ ...prevState, ...route.params }));
-      GetCurrentLocation();
-    }
-  }, [route.params]);
+  // useEffect(() => {
+  // const { uri } = useSelector(selectURI);
+
+  //   if (route.params) {
+  //     setState((prevState) => ({ ...prevState, ...route.params }));
+  //     GetCurrentLocation();
+  //   }
+  // }, [dispatch]);
 
   const GetCurrentLocation = async () => {
     let permission = await Location.requestForegroundPermissionsAsync();
@@ -68,7 +89,7 @@ const CreatePostsScreen = ({ navigation, route }) => {
       const { country, city, subregion } = response[0];
       setState((prevState) => ({
         ...prevState,
-        address: `${country}, ${city ? city : subregion}`,
+        adress: `${country}, ${city ? city : subregion}`,
       }));
     }
   };
@@ -78,8 +99,9 @@ const CreatePostsScreen = ({ navigation, route }) => {
     Keyboard.dismiss();
   };
 
-  const handleDel = () => setState(initialState);
-  const { name, address, uri } = state;
+  const handleDel = () => {
+    dispatch(delPhoto({timeStamp}));
+    setState(initialPost)};
 
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
@@ -121,11 +143,11 @@ const CreatePostsScreen = ({ navigation, route }) => {
             />
             <TextInput
               style={{ ...styles.input, ...styles.locationInput }}
-              onChangeText={addressHandler}
+              onChangeText={adressHandler}
               onFocus={chengIsShowKeyboard}
               placeholder="Location..."
               autoCapitalize="none"
-              value={address}
+              value={adress}
             />
           </View>
         </View>
@@ -150,4 +172,4 @@ const CreatePostsScreen = ({ navigation, route }) => {
   );
 };
 
-export default CreatePostsScreen;
+export default CreatePosts;

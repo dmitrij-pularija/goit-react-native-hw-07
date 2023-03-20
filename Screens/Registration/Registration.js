@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import Container from "../../components/Container/Container";
-import { signin } from "../../redux/auth/operations";
-import { initialLogin } from '../../services/initial';
+import Avatar from "../../components/Avatar/Avatar";
+import styles from "./Registration.styles";
+import { initialRegistr } from '../../services/initial';
+import { signup } from "../../redux/auth/operations";
 import { useDispatch } from "react-redux";
 import {
   Text,
@@ -13,37 +15,34 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
-import styles from "./LoginScreen.styles.js";
 
-const Login = ({ navigation }) => {
+const Registr = ({ navigation }) => {
   const dispatch = useDispatch();
-  const [state, setstate] = useState(initialLogin);
+  const [state, setstate] = useState(initialRegistr);
   const [hidePassword, setHidePassword] = useState(true);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const chengHidePassword = () => setHidePassword(!hidePassword);
-  const chengIsShowKeyboard = () => setIsShowKeyboard(true);
+  const loginHandler = (value) =>
+    setstate((prevState) => ({ ...prevState, login: value }));
   const emailHandler = (value) =>
     setstate((prevState) => ({ ...prevState, email: value }));
   const passwordHandler = (value) =>
     setstate((prevState) => ({ ...prevState, password: value }));
-
   const handleSubmit = () => {
     Keyboard.dismiss();
     setIsShowKeyboard(false);
-    setHidePassword(true);
-    dispatch(signin(state));
+    dispatch(signup(state));
     // console.log(state);
-    setstate(initialLogin);
-    navigation.navigate("Home");
+    setstate(initialRegistr);
+    // navigation.navigate("Home");
   };
 
   const keyboardHide = () => {
+    Keyboard.dismiss();
     setIsShowKeyboard(false);
     setHidePassword(true);
-    Keyboard.dismiss();
   };
-  // console.log(isShowKeyboard);
-  const { email, password } = state;
+  const { login, email, password } = state;
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
       <KeyboardAvoidingView
@@ -51,14 +50,23 @@ const Login = ({ navigation }) => {
         behavior={Platform.OS == "ios" ? "padding" : "height"}
       >
         <Container>
+          <Avatar />
           <View style={styles.form}>
-            <Text style={styles.formTitle}>Login</Text>
+            <Text style={styles.formTitle}>Registration</Text>
             <View style={styles.inputBlock}>
               <TextInput
                 style={styles.input}
+                value={login}
+                onFocus={() => setIsShowKeyboard(true)}
+                onChangeText={loginHandler}
+                placeholder="Login"
+                autoCapitalize="none"
+              />
+              <TextInput
+                style={styles.input}
                 value={email}
+                onFocus={() => setIsShowKeyboard(true)}
                 onChangeText={emailHandler}
-                onFocus={chengIsShowKeyboard}
                 placeholder="E-mail address"
                 inputMode="email"
                 keyboardType="email-address"
@@ -69,8 +77,8 @@ const Login = ({ navigation }) => {
                   style={styles.input}
                   secureTextEntry={hidePassword}
                   value={password}
+                  onFocus={() => setIsShowKeyboard(true)}
                   onChangeText={passwordHandler}
-                  onFocus={chengIsShowKeyboard}
                   placeholder="Password"
                 />
                 <TouchableOpacity
@@ -86,14 +94,14 @@ const Login = ({ navigation }) => {
               style={styles.btn}
               onPress={handleSubmit}
             >
-              <Text style={styles.btnTitle}>Sign In</Text>
+              <Text style={styles.btnTitle}>Sign Up</Text>
             </TouchableOpacity>
           </View>
           <Text
-            style={{ ...styles.limk, paddingBottom: isShowKeyboard ? 0 : 144 }}
-            onPress={() => navigation.navigate("Registration")}
+            style={{ ...styles.limk, marginBottom: isShowKeyboard ? 0 : 78 }}
+            onPress={() => navigation.navigate("Login")}
           >
-            Don't have an account? Sign Up
+            Already have an account? Sign In
           </Text>
         </Container>
       </KeyboardAvoidingView>
@@ -101,4 +109,4 @@ const Login = ({ navigation }) => {
   );
 };
 
-export default Login;
+export default Registr;

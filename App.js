@@ -1,22 +1,12 @@
 import React, { useEffect, useState } from "react";
 import * as SplashScreen from "expo-splash-screen";
-import * as Font from "expo-font";
 import { Provider } from "react-redux";
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import Registr from "./Screens/RegistrationScreen/RegistrationScreen";
-import Login from "./Screens/LoginScreen/LoginScreen";
-import Comments from "./Screens/CommentsScreen/CommentsScreen";
-import CreatePhoto from "./components/CreatePhoto/CreatePhoto";
-import Map from "./Screens/MapScreen/MapScreen";
-import Home from "./Screens/Home/Home";
-import { store } from "./redux/store";
-
-const MainStack = createStackNavigator();
+import Router from "./components/router";
+import store from "./redux/store";
+import * as Font from "expo-font";
 
 const App = () => {
   const [isReady, setIsReady] = useState(false);
-
   const loadFonts = async () => {
     try {
       await Font.loadAsync({
@@ -36,45 +26,14 @@ const App = () => {
     loadFonts();
   }, []);
 
-  if (!isReady) return null;
-
-  return (
-    <Provider store={store}>
-    <NavigationContainer>
-      <MainStack.Navigator initialRouteName="Login">
-        <MainStack.Screen
-          name="Registration"
-          component={Registr}
-          options={{ headerShown: false }}
-        />
-        <MainStack.Screen
-          name="Login"
-          component={Login}
-          options={{ headerShown: false }}
-        />
-        <MainStack.Screen
-          name="Home"
-          component={Home}
-          options={{ headerShown: false }}
-        />
-        <MainStack.Screen
-          name="Map"
-          component={Map}
-          options={{ headerShown: true }}
-        />
-        <MainStack.Screen
-          name="Comments"
-          component={Comments}
-          options={{ headerShown: true }}
-        />
-        <MainStack.Screen
-          name="CreatePhoto"
-          component={CreatePhoto}
-          options={{ headerShown: true }}
-        />
-      </MainStack.Navigator>
-    </NavigationContainer>
-    </Provider>
-  );
+ 
+  if (isReady) {
+    return (
+      <Provider store={store}>
+        <Router />
+        </Provider>
+    );
+  } else return null;
 };
+
 export default App;
