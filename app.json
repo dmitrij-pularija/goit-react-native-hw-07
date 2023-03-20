@@ -2,9 +2,7 @@
   "expo": {
     "name": "goit-react-native-hw-06",
     "slug": "goit-react-native-hw-06",
-    "platforms": ["ios", "android", "web"],
     "version": "1.0.0",
-    "developmentClient": true,
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
