@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { initialData } from '../../services/initial';
-import { getPosts, getComments } from "./operations";
+import { getPosts, getComment, getComments } from "./operations";
 
 const postSlice = createSlice({
     name: 'data',
@@ -10,6 +10,9 @@ const postSlice = createSlice({
     .addCase(getPosts.fulfilled, (state, {payload}) => {
         state.posts = payload;
     })
+    // .addCase(getComment.fulfilled, (state, {payload}) => {
+    //     state.comments = payload;
+    // })
     .addCase(getComments.fulfilled, (state, {payload}) => {
         state.comments = payload;
     })

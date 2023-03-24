@@ -1,14 +1,11 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Registr from "../Screens/Registration/Registration";
-import Login from "../Screens/Login/Login";
-import Comments from "../Screens/Comments/Comments";
-import CreatePhoto from "../Screens/CreatePhoto/CreatePhoto";
-import { selectUser } from "../redux/auth/selectors";
 import { useSelector, useDispatch } from "react-redux";
-// import store from "../redux/store";
-
-import { refresh } from '../redux/auth/operations';
+import { selectUser } from "../redux/auth/selectors";
+import Comments from "../Screens/Comments/Comments";
+import { refresh } from "../redux/auth/operations";
+import Login from "../Screens/Login/Login";
 import React, { useEffect } from "react";
 import Map from "../Screens/Map/Map";
 import Home from "../Screens/Home";
@@ -53,7 +50,7 @@ const PrivateNavigator = () => {
             fontSize: 17,
             color: "#212121",
           },
-          headerStatusBarHeight: 44,
+          // headerStatusBarHeight: 44,
           headerTitleAlign: "center",
         }}
       >
@@ -67,11 +64,6 @@ const PrivateNavigator = () => {
           component={Comments}
           options={{ headerShown: true }}
         />
-        <PrivateStack.Screen
-          name="CreatePhoto"
-          component={CreatePhoto}
-          options={{ headerShown: true }}
-        />
       </PrivateStack.Group>
     </PrivateStack.Navigator>
   );
@@ -79,17 +71,19 @@ const PrivateNavigator = () => {
 
 const Router = () => {
   const dispatch = useDispatch();
-  
-   useEffect(() => {
-    dispatch(refresh());
-}, [dispatch]);
+  const { userId } = useSelector(selectUser);
+  const state = useSelector((state) => state);
 
-// console.log(useSelector(state=>state));
-const { userId } = useSelector(selectUser);
+  useEffect(() => {
+    dispatch(refresh());
+  }, [dispatch]);
+
+  console.log(state);
   return (
     <NavigationContainer>
       {userId ? <PrivateNavigator /> : <PublicNavigator />}
     </NavigationContainer>
   );
 };
+
 export default Router;

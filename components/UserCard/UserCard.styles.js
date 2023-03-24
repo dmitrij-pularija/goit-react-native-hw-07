@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     justifyContent: "flex-start",
-gap: 8,
+    gap: 8,
   },
   image: {
     width: 60,
@@ -23,16 +23,12 @@ gap: 8,
   },
   name: {
     fontFamily: "Roboto-Bold",
-    // lineHeight: 15,
     fontWeight: 700,
     fontSize: 24,
-    // fontSize: 13,
   },
   email: {
     fontFamily: "Roboto-Regular",
-    // lineHeight: 13,
     fontSize: 18,
-    // fontSize: 11,
   },
 });
 

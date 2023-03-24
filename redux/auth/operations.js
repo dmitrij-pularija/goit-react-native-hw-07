@@ -1,69 +1,67 @@
-import { updateProfile, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut} from "firebase/auth";
+import {
+  updateProfile,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut,
+} from "firebase/auth";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { auth }  from "../../firebase/config";
+import { auth } from "../../services/firebaseConfig";
 
 export const signup = createAsyncThunk(
-    "auth/signup",
-    async({ email, password, login }, {rejectWithValue}) => {
-        try {
-    await createUserWithEmailAndPassword(auth, email, password);
-    await updateProfile(auth.currentUser, 
-      {
-        displayName: login, 
-        photoURL: "",
-      });
-      const { uid, displayName, photoURL } = auth.currentUser;
-      return { uid, displayName, email, photoURL};
-        }
-        catch({response}) {
-            return rejectWithValue(response);
-        }
+  "auth/signup",
+  async ({ email, password, displayName, photoURL }, { rejectWithValue }) => {
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      await updateProfile(auth.currentUser, { displayName, photoURL });
+      const { uid } = auth.currentUser;
+      return { userId: uid, nickName: displayName, email, photoURL };
+    } catch ({ response }) {
+      return rejectWithValue(response);
     }
-)
+  }
+);
 
 export const signin = createAsyncThunk(
-    "auth/login",
-    async({ email, password }, {rejectWithValue}) => {
-        try {
-            await signInWithEmailAndPassword(auth, email, password);
-            const { uid, displayName, photoURL } = auth.currentUser;
-            return { uid, displayName, email, photoURL };
-        }
-        catch({response}) {
-            return rejectWithValue(response);
-        }
+  "auth/login",
+  async ({ email, password }, { rejectWithValue }) => {
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      const { uid, displayName, photoURL } = auth.currentUser;
+      return { userId: uid, nickName: displayName, email, photoURL };
+    } catch ({ response }) {
+      return rejectWithValue(response);
     }
-)
+  }
+);
 
 export const signout = createAsyncThunk(
-    "auth/logout",
-    async(_, {rejectWithValue}) => {
-        try {
-            await signOut(auth);
-        }
-        catch({response}) {
-            return rejectWithValue(response);
-        }
+  "auth/logout",
+  async (_, { rejectWithValue }) => {
+    try {
+      await signOut(auth);
+    } catch ({ response }) {
+      return rejectWithValue(response);
     }
-)
+  }
+);
 
 export const refresh = createAsyncThunk(
-    "auth/update",
-    async  (_, {rejectWithValue}) => {
-        try {
-            return await new Promise((resolve, reject) => {
-                onAuthStateChanged(auth, (user) => {
-                    if (user) {
-                    const { uid, displayName, email, photoURL } = user;
-                    resolve({ uid, displayName, email, photoURL });
-                    } else {
-                        return rejectWithValue('Unable to fetch user');
-                    }
-                });
-            });
-        }
-        catch({response}) {
-            return rejectWithValue(response);
-        }
+  "auth/update",
+  async (_, { rejectWithValue }) => {
+    try {
+      return await new Promise((resolve, reject) => {
+        onAuthStateChanged(auth, (user) => {
+          if (user) {
+            const { uid, displayName, email, photoURL } = user;
+            resolve({ userId: uid, nickName: displayName, email, photoURL });
+          } else {
+            return rejectWithValue("Unable to fetch user");
+          }
+        });
+      });
+    } catch ({ response }) {
+      return rejectWithValue(response);
     }
-)
+  }
+);

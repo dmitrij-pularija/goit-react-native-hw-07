@@ -19,7 +19,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: "#F6F6F6",
   },
-
   image: {
     flex: 1,
     width: "100%",
@@ -27,20 +26,13 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
   },
   list: {
-    // flex:1,
-    // height: "70%",
     width: "100%",
-    display: "flex",
-    // flexDirection: "column",
-    marginVertical: 32,
-    gap: 24,
+    marginVertical: 20,
   },
   item: {
     width: "100%",
-    display: "flex",
-    // flexDirection: "row",
+    marginVertical: 12,
     gap: 16,
-    // marginBottom: 24,
   },
   avatar: {
     width: 28,
@@ -77,7 +69,6 @@ const styles = StyleSheet.create({
   },
   data: {
     color: "#BDBDBD",
-    // textAlign: "right",
     marginTop: 8,
     fontSize: 10,
     lineHeight: 12,

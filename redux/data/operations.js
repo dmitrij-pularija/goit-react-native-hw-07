@@ -1,16 +1,16 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { db } from "../../firebase/config";
+import { db } from "../../services/firebaseConfig";
 import {
-    doc,
-    collection,
-    addDoc,
-    getDocs,
-    updateDoc,
-    arrayUnion,
-    query,
-    where,
-  } from "firebase/firestore";
-  
+  doc,
+  collection,
+  addDoc,
+  getDocs,
+  updateDoc,
+  arrayUnion,
+  orderBy,
+  query,
+} from "firebase/firestore";
+
 export const createPost = createAsyncThunk(
   "data/createPost",
   async ({ author, uri, name, adress, coordinate }, { rejectWithValue }) => {
@@ -66,12 +66,9 @@ export const createComment = createAsyncThunk(
 
 export const getComments = createAsyncThunk(
   "data/getComments",
-  async (postId, { rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
-      const q = query(
-        collection(db, "comments"),
-        where("postId", "==", postId)
-      );
+      const q = query(collection(db, "comments"), orderBy("timeStamp"));
       const querySnapshot = await getDocs(q);
       return querySnapshot.docs.map((doc) => ({
         comentId: doc.id,

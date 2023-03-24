@@ -4,19 +4,36 @@ import {
   deleteObject,
   getDownloadURL,
 } from "firebase/storage";
+import { updateProfile } from "firebase/auth";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { storage } from "../../firebase/config";
+import { auth, storage } from "../../services/firebaseConfig";
 
 export const sendPhoto = createAsyncThunk(
   "prestate/sendPhoto",
-  async ({ uri, time }, { rejectWithValue }) => {
+  async ({ uri, path }, { rejectWithValue }) => {
     try {
       const response = await fetch(uri);
       const file = await response.blob();
-      const storageRef = ref(storage, `images/img${time}.jpg`);
+      const storageRef = ref(storage, path);
       await uploadBytes(storageRef, file);
-      const url = await getDownloadURL(ref(storage, `images/img${time}.jpg`));
-      return { url };
+      const url = await getDownloadURL(ref(storage, path));
+      return url;
+    } catch ({ response }) {
+      return rejectWithValue(response);
+    }
+  }
+);
+
+export const updateAvatar = createAsyncThunk(
+  "prestate/updateAvatar",
+  async ({ uri, path }, { rejectWithValue }) => {
+    try {
+      const response = await fetch(uri);
+      const file = await response.blob();
+      const storageRef = ref(storage, path);
+      await uploadBytes(storageRef, file);
+      const url = await getDownloadURL(ref(storage, path));
+      await updateProfile(auth.currentUser, { photoURL: url });
     } catch ({ response }) {
       return rejectWithValue(response);
     }
@@ -25,9 +42,9 @@ export const sendPhoto = createAsyncThunk(
 
 export const delPhoto = createAsyncThunk(
   "prestate/delPhoto",
-  async ({ timeStamp }, { rejectWithValue }) => {
+  async (uri, { rejectWithValue }) => {
     try {
-      const desertRef = ref(storage, `images/img${timeStamp}.jpg`);
+      const desertRef = ref(storage, uri);
       await deleteObject(desertRef);
     } catch ({ response }) {
       return rejectWithValue(response);

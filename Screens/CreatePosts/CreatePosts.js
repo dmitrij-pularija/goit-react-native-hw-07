@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Feather } from "@expo/vector-icons";
-import { initialPost } from '../../services/initial';
+import { initialPost } from "../../services/initial";
 import { useSelector, useDispatch } from "react-redux";
 import { selectUser } from "../../redux/auth/selectors";
 import { createPost, getPosts } from "../../redux/data/operations";
-import { setTimeStamp } from "../../redux/prestate/slice";
 import { delPhoto } from "../../redux/prestate/operations";
+import { takePhoto } from "../../services/ImagePicker";
 import { selectPrestate } from "../../redux/prestate/selectors";
-import * as Location from "expo-location";
+import GetCurrentLocation from "../../services/location";
 import {
   Text,
   View,
@@ -22,86 +22,41 @@ import {
 } from "react-native";
 import styles from "./CreatePosts.styles.js";
 
-// const initialState = {
-//   name: "",
-//   adress: "",
-//   coordinate: {},
-// };
-
-const CreatePosts = ({ navigation}) => {
+const CreatePosts = ({ navigation }) => {
   const dispatch = useDispatch();
-  const { uri, timeStamp} = useSelector(selectPrestate);
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [state, setState] = useState(initialPost);
+  const { uri } = useSelector(selectPrestate);
   const { name, adress, coordinate } = state;
   const author = useSelector(selectUser);
 
-  const imageHandler = () => {
-      GetCurrentLocation();
-  navigation.navigate("CreatePhoto");
-  };
+  const imageHandler = () => takePhoto(dispatch);
   const nameHandler = (value) =>
     setState((prevState) => ({ ...prevState, name: value }));
   const adressHandler = (value) =>
     setState((prevState) => ({ ...prevState, adress: value }));
   const handleSubmit = () => {
+    if (!uri || !name || !adress)
+      return Alert.alert("Not all fields are filled!");
     Keyboard.dismiss();
-    // const id = uuidv4();
-    // dispatch(createPost({author, uri, name, adress, coordinate}));
     dispatch(createPost({ author, uri, name, adress, coordinate }));
-
     setState(initialPost);
-    dispatch(setTimeStamp(null));
     dispatch(getPosts());
     navigation.navigate("Posts");
-  };
-  // useEffect(() => {
-  // const { uri } = useSelector(selectURI);
-
-  //   if (route.params) {
-  //     setState((prevState) => ({ ...prevState, ...route.params }));
-  //     GetCurrentLocation();
-  //   }
-  // }, [dispatch]);
-
-  const GetCurrentLocation = async () => {
-    let permission = await Location.requestForegroundPermissionsAsync();
-    if (!permission.granted) {
-      Alert.alert(
-        "Permission not granted",
-        "Allow the app to use location service.",
-        [{ text: "OK" }],
-        { cancelable: false }
-      );
-    }
-    const { coords } = await Location.getCurrentPositionAsync();
-
-    if (coords) {
-      const { latitude, longitude } = coords;
-      setState((prevState) => ({
-        ...prevState,
-        coordinate: { latitude, longitude },
-      }));
-      const response = await Location.reverseGeocodeAsync({
-        latitude,
-        longitude,
-      });
-      const { country, city, subregion } = response[0];
-      setState((prevState) => ({
-        ...prevState,
-        adress: `${country}, ${city ? city : subregion}`,
-      }));
-    }
   };
   const chengIsShowKeyboard = () => setIsShowKeyboard(true);
   const keyboardHide = () => {
     setIsShowKeyboard(false);
     Keyboard.dismiss();
   };
-
   const handleDel = () => {
-    dispatch(delPhoto({timeStamp}));
-    setState(initialPost)};
+    dispatch(delPhoto(uri));
+    setState(initialPost);
+  };
+
+  useEffect(() => {
+    uri && GetCurrentLocation({ setState });
+  }, [uri]);
 
   return (
     <TouchableWithoutFeedback onPress={keyboardHide}>
@@ -132,7 +87,6 @@ const CreatePosts = ({ navigation}) => {
             onChangeText={nameHandler}
             onFocus={chengIsShowKeyboard}
             placeholder="Name..."
-            autoCapitalize="none"
           />
           <View style={styles.locationField}>
             <Feather
@@ -146,7 +100,6 @@ const CreatePosts = ({ navigation}) => {
               onChangeText={adressHandler}
               onFocus={chengIsShowKeyboard}
               placeholder="Location..."
-              autoCapitalize="none"
               value={adress}
             />
           </View>

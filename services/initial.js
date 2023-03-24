@@ -12,7 +12,6 @@ export const initialAuth = {
 
   export const initialPrestate = {
     uri: null,
-    timeStamp: null,
   };
 
   export const initialLogin = {
@@ -21,7 +20,7 @@ export const initialAuth = {
   };
 
   export const initialRegistr = {
-    login: "",
+    displayName: "",
     email: "",
     password: "",
   };

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Feather } from "@expo/vector-icons";
 import Posts from "./Posts/Posts";
@@ -8,10 +8,17 @@ import HeaderButton from "../components/Button/Button";
 import { icons } from "../services/initial";
 import { signout } from "../redux/auth/operations";
 import { useDispatch } from "react-redux";
+import { getPosts, getComments } from "../redux/data/operations";
 
 const Tabs = createBottomTabNavigator();
 const Home = ({ navigation }) => {
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getPosts());
+    dispatch(getComments());
+  }, [dispatch]);
+
   const logOut = () => dispatch(signout());
   return (
     <Tabs.Navigator
@@ -53,7 +60,7 @@ const Home = ({ navigation }) => {
             fontSize: 17,
             color: "#212121",
           },
-          headerStatusBarHeight: 44,
+          // headerStatusBarHeight: 44,
           headerTitleAlign: "center",
         }}
       >
@@ -63,10 +70,7 @@ const Home = ({ navigation }) => {
           options={{
             headerTitle: "Posts",
             headerRight: () => (
-              <HeaderButton
-                name={"log-out"}
-                onPress={logOut}
-              />
+              <HeaderButton name={"log-out"} onPress={logOut} />
             ),
             headerRightContainerStyle: { paddingRight: 16 },
           }}

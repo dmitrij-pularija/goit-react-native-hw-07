@@ -1,29 +1,21 @@
-import React, { useEffect, useState } from "react";
-import * as SplashScreen from "expo-splash-screen";
+import React, { useEffect } from "react";
+// import { useSelector, useDispatch } from "react-redux";
+// import * as SplashScreen from "expo-splash-screen";
 import { Provider } from "react-redux";
 import Router from "./components/router";
 import store from "./redux/store";
-import * as Font from "expo-font";
+import { getPermissions } from "./services/ImagePicker";
+
+// import { refresh } from "./redux/auth/operations";
+import { useFont } from "./services/hooks";
+// import * as Font from "expo-font";
 
 const App = () => {
-  const [isReady, setIsReady] = useState(false);
-  const loadFonts = async () => {
-    try {
-      await Font.loadAsync({
-        "Roboto-Regular": require("./assets/fonts/Roboto-Regular.ttf"),
-        "Roboto-Bold": require("./assets/fonts/Roboto-Bold.ttf"),
-      });
-    } catch (error) {
-      console.warn(error);
-    } finally {
-      SplashScreen.hideAsync();
-      setIsReady(true);
-    }
-  };
+  const { isReady } = useFont();
+  // const dispatch = useDispatch();
 
   useEffect(() => {
-    SplashScreen.preventAutoHideAsync();
-    loadFonts();
+    getPermissions();
   }, []);
 
  

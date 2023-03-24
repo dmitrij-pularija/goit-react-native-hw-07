@@ -2,9 +2,11 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    // display: "flex",
     justifyContent: "center",
-    width: "100%",
-    height: "100%",
+    // alignItems: "center",
+    // width: "100%",
+    // height: "100%",
   },
   permission: {
     alignSelf: "center",
@@ -13,22 +15,34 @@ const styles = StyleSheet.create({
 
   camera: {
     flex: 1,
+    width: "100%",
+    height: "100%",
+    // alignItems: "center",
   },
   photoView: {
     flex: 1,
     resizeMode: "contain",
     backgroundColor: "transparent",
     justifyContent: "flex-end",
-  },
-  buttonsBox: {
-    position: "relative",
-    display: "flex",
-    justifyContent: "space-between",
-    width: "100%",
-    height: 48,
-    marginBottom: 100,
     alignItems: "center",
   },
+  buttonsBox: {
+    // position: "relative",
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: 300,
+    height: 70,
+    // paddingHorizontal: 50,
+    marginBottom: 80,
+    alignItems: "center",
+  },
+
+  libContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
 
   takeContainer: {
     justifyContent: "center",
@@ -36,11 +50,11 @@ const styles = StyleSheet.create({
   },
 
   flipContainer: {
-    position: "absolute",
+    // position: "absolute",
     justifyContent: "center",
     alignItems: "center",
-    left: 50,
-    top: 12,
+    // left: 50,
+    // top: 12,
   },
 });
 export default styles;

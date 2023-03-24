@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import MapView, { Marker } from "react-native-maps";
 import { selectPosts } from "../../redux/data/selectors";
-import { View } from "react-native";
+import { View, StatusBar } from "react-native";
 import styles from "./Map.styles.js";
 
 const Map = ({
@@ -25,10 +25,10 @@ const Map = ({
         }}
         mapType={"standard"}
         minZoomLevel={15}
-        // zoomControlEnabled={true}
+        zoomControlEnabled={true}
         // showsUserLocation={true}
         // toolbarEnabled={true}
-        // loadingEnabled="true"
+        loadingEnabled={true}
       >
         {posts.map(({ postId, name, adress, coordinate, uri}) => (
           <Marker
@@ -40,6 +40,7 @@ const Map = ({
           />
         ))}
       </MapView>
+      <StatusBar hidden={true} /> 
     </View>
   );
 };

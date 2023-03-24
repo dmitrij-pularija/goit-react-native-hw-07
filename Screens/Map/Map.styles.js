@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
   mapStyle: {
     flex: 1,
     width: "100%",
-    // height: "90%"
+    // height: "100%"
     // width: Dimensions.get("window").width,
     // height: Dimensions.get("window").height,
   },

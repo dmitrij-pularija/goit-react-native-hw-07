@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getPosts, addLike } from "../../redux/data/operations";
 import styles from "./Posts.styles";
@@ -12,19 +12,11 @@ const Posts = ({ navigation }) => {
   const dispatch = useDispatch();
   const { userId } = useSelector(selectUser);
   const posts = useSelector(selectPosts);
-
-  useEffect(() => {
-    dispatch(getPosts());
-  }, []);
-
-  const mapView = (coordinate) => {
-    navigation.navigate("Map", coordinate);
-  };
-  const commentView = (postId, uri) => {
+  const mapView = (coordinate) => navigation.navigate("Map", coordinate);
+  const commentView = (postId, uri) =>
     navigation.navigate("Comments", { postId, uri });
-  };
   const setLike = (postId) => {
-    dispatch(addLike({postId, userId}));
+    dispatch(addLike({ postId, userId }));
     dispatch(getPosts());
   };
 
