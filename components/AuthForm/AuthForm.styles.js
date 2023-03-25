@@ -1,8 +1,6 @@
 import { StyleSheet } from "react-native";
+
 const styles = StyleSheet.create({
-  keyboard: {
-    flex: 1,
-  },
   form: {
     width: "100%",
   },
@@ -10,16 +8,17 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "#212121",
     marginBottom: 32,
-    // marginVertical: 32,
     fontFamily: "Roboto-Bold",
     fontSize: 30,
     lineHeight: 35,
     textAlign: "center",
   },
   inputBlock: {
-    gap: 16,
+    display: "flex",
   },
   input: {
+    display: "flex",
+    height: 50,
     borderWidth: 1,
     borderColor: "#E8E8E8",
     backgroundColor: "#F6F6F6",
@@ -43,7 +42,7 @@ const styles = StyleSheet.create({
   btn: {
     backgroundColor: "#FF6C00",
     borderRadius: 100,
-    marginTop: 43,
+    marginTop: 27,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -60,6 +59,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 19,
     color: "#1B4371",
+  },
+  error: {
+    height: 16,
+    color: "red",
   },
 });
 

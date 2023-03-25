@@ -14,13 +14,13 @@ const prestateSlice = createSlice({
     .addCase(signup.fulfilled, state => {state.uri = null})
     .addCase(createPost.fulfilled, state => {state.uri = null;})
     },
-    // reducers: {
-    //     setTimeStamp(state, { payload }) {
-    //         state.path = payload;
-    //       },    
-    // },
+    reducers: {
+        setIsShowKeyboard(state, { payload }) {
+            state.isShowKeyboard = payload;
+          },    
+    },
 });
 
 export const prestateReducer = prestateSlice.reducer;
-// export const { setTimeStamp } = prestateSlice.actions;
+export const { setIsShowKeyboard } = prestateSlice.actions;
 // export default prestateReducer;

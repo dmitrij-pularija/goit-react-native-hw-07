@@ -1,11 +1,11 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import Registr from "../Screens/Registration/Registration";
+import Registr from "../Screens/Registration";
 import { useSelector, useDispatch } from "react-redux";
 import { selectUser } from "../redux/auth/selectors";
 import Comments from "../Screens/Comments/Comments";
 import { refresh } from "../redux/auth/operations";
-import Login from "../Screens/Login/Login";
+import Login from "../Screens/Login";
 import React, { useEffect } from "react";
 import Map from "../Screens/Map/Map";
 import Home from "../Screens/Home";
