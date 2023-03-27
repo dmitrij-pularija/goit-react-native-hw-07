@@ -18,7 +18,6 @@ import {
   TextInput,
   Platform,
   TouchableOpacity,
-  TouchableWithoutFeedback,
   KeyboardAvoidingView,
   RefreshControl,
 } from "react-native";
@@ -61,7 +60,6 @@ const Comments = ({
   const { isShowKeyboard } = useKeyboard(0);
   const isLoading = useSelector(selectIsLoading);
   const comments = useSelector(selectComments);
-  const keyboardHide = () => Keyboard.dismiss();
   const commentsFiltred = comments.filter(
     (comment) => comment.postId === postId
   );
