@@ -67,85 +67,79 @@ const Comments = ({
   );
 
   return (
-    <TouchableWithoutFeedback onPress={keyboardHide}>
-      <KeyboardAvoidingView
-        style={styles.keyboard}
-        behavior={Platform.OS == "ios" && "padding"}
-      >
-        <View style={styles.container}>
-          <View style={styles.imageBox}>
-            <Image style={styles.image} source={{ uri }} />
-          </View>
-          <FlatList
-            style={styles.list}
-            data={commentsFiltred}
-            keyExtractor={(item) => item.comentId}
-            refreshControl={
-              <RefreshControl
-                refreshing={isLoading}
-                onRefresh={onRefresh}
-                tintColor={"#FF6C00"}
-                progressBackgroundColor={"inherit"}
-                colors={["#FF6C00"]}
-              />
-            }
-            renderItem={({ item }) => (
-              <View
-                style={{
-                  ...styles.item,
-                  flexDirection:
-                    item.userId === user.userId ? "row-reverse" : "row",
-                }}
-              >
-                <View style={styles.avatarBox}>
-                  <Image
-                    style={styles.avatar}
-                    source={{ uri: item.photoURL }}
-                  />
-                </View>
-                <View
-                  style={
-                    item.userId === user.userId
-                      ? styles.ownerComment
-                      : styles.guestComment
-                  }
-                >
-                  <Text style={styles.coment}>{item.comment}</Text>
-                  <Text
-                    style={{
-                      ...styles.data,
-                      textAlign: item.userId === user.userId ? "left" : "right",
-                    }}
-                  >
-                    {item.timeStamp}
-                  </Text>
-                </View>
-              </View>
-            )}
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS == "ios" && "padding"}
+    >
+      <View style={styles.imageBox}>
+        <Image style={styles.image} source={{ uri }} />
+      </View>
+      <FlatList
+        style={styles.list}
+        data={commentsFiltred}
+        scrollEnabled={true}
+        keyExtractor={(item) => item.comentId}
+        refreshControl={
+          <RefreshControl
+            refreshing={isLoading}
+            onRefresh={onRefresh}
+            tintColor={"#FF6C00"}
+            progressBackgroundColor={"inherit"}
+            colors={["#FF6C00"]}
           />
+        }
+        renderItem={({ item }) => (
           <View
             style={{
-              ...styles.inputBox,
-              marginBottom: isShowKeyboard && Platform.OS == "ios" ? 120 : 16,
+              ...styles.item,
+              flexDirection:
+                item.userId === user.userId ? "row-reverse" : "row",
             }}
           >
-            <TextInput
-              style={styles.input}
-              onChangeText={commentHandler}
-              placeholder="Comment..."
-              value={comment}
-            />
-            <TouchableOpacity
-              activeOpacity={0.8}
-              style={styles.btnSend}
-              onPress={handleSend}
+            <View style={styles.avatarBox}>
+              <Image style={styles.avatar} source={{ uri: item.photoURL }} />
+            </View>
+            <View
+              style={
+                item.userId === user.userId
+                  ? styles.ownerComment
+                  : styles.guestComment
+              }
             >
-              <Feather name="arrow-up" size={24} color="#FFFFFF" />
-            </TouchableOpacity>
+              <Text style={styles.coment}>{item.comment}</Text>
+              <Text
+                style={{
+                  ...styles.data,
+                  textAlign: item.userId === user.userId ? "left" : "right",
+                }}
+              >
+                {item.timeStamp}
+              </Text>
+            </View>
           </View>
-        </View>
-      </KeyboardAvoidingView>
-    </TouchableWithoutFeedback>
+        )}
+      />
+      <View
+        style={{
+          ...styles.inputBox,
+          marginBottom: isShowKeyboard && Platform.OS == "ios" ? 120 : 16,
+        }}
+      >
+        <TextInput
+          style={styles.input}
+          onChangeText={commentHandler}
+          placeholder="Comment..."
+          value={comment}
+        />
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={styles.btnSend}
+          onPress={handleSend}
+        >
+          <Feather name="arrow-up" size={24} color="#FFFFFF" />
+        </TouchableOpacity>
+      </View>
+    </KeyboardAvoidingView>
   );
 };
 
