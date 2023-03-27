@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Feather } from "@expo/vector-icons";
+import Loader from "../../components/Loader";
+import { useKeyboard } from "../../services/hooks";
 import { initialPost } from "../../services/initial";
 import { useSelector, useDispatch } from "react-redux";
 import { selectUser } from "../../redux/auth/selectors";
@@ -24,7 +26,7 @@ import styles from "./CreatePosts.styles.js";
 
 const CreatePosts = ({ navigation }) => {
   const dispatch = useDispatch();
-  const [isShowKeyboard, setIsShowKeyboard] = useState(false);
+  const { isShowKeyboard } = useKeyboard(0);
   const [state, setState] = useState(initialPost);
   const { uri } = useSelector(selectPrestate);
   const { name, adress, coordinate } = state;
@@ -44,11 +46,8 @@ const CreatePosts = ({ navigation }) => {
     dispatch(getPosts());
     navigation.navigate("Posts");
   };
-  const chengIsShowKeyboard = () => setIsShowKeyboard(true);
-  const keyboardHide = () => {
-    setIsShowKeyboard(false);
-    Keyboard.dismiss();
-  };
+
+  const keyboardHide = () => Keyboard.dismiss();
   const handleDel = () => {
     dispatch(delPhoto(uri));
     setState(initialPost);
@@ -59,69 +58,70 @@ const CreatePosts = ({ navigation }) => {
   }, [uri]);
 
   return (
-    <TouchableWithoutFeedback onPress={keyboardHide}>
-      <KeyboardAvoidingView
-        style={styles.container}
-        behavior={Platform.OS == "ios" ? "padding" : "height"}
-      >
-        {uri ? (
-          <Image source={{ uri }} style={styles.imageBox} />
-        ) : (
-          <View
-            style={{ ...styles.imageBox, marginTop: isShowKeyboard ? -32 : 32 }}
-          >
+    <>
+      <Loader />
+      <TouchableWithoutFeedback onPress={keyboardHide}>
+        <KeyboardAvoidingView
+          style={styles.container}
+          behavior={Platform.OS == "ios" ? "padding" : "height"}
+        >
+          <View style={{ marginTop: isShowKeyboard ? -50 : 0 }}>
+            {uri ? (
+              <Image source={{ uri }} style={styles.imageBox} />
+            ) : (
+              <View style={styles.imageBox}>
+                <TouchableOpacity
+                  style={styles.cameraButton}
+                  activeOpacity={0.8}
+                  onPress={imageHandler}
+                >
+                  <Feather name="camera" size={24} color="#BDBDBD" />
+                </TouchableOpacity>
+              </View>
+            )}
+            <Text style={styles.text}>Upload a photo</Text>
+            <View style={styles.inputBlock}>
+              <TextInput
+                style={styles.input}
+                value={name}
+                onChangeText={nameHandler}
+                placeholder="Name..."
+              />
+              <View style={styles.locationField}>
+                <Feather
+                  name="map-pin"
+                  size={24}
+                  color="#BDBDBD"
+                  style={styles.locationIcon}
+                />
+                <TextInput
+                  style={{ ...styles.input, ...styles.locationInput }}
+                  onChangeText={adressHandler}
+                  placeholder="Location..."
+                  value={adress}
+                />
+              </View>
+            </View>
             <TouchableOpacity
-              style={styles.cameraButton}
               activeOpacity={0.8}
-              onPress={imageHandler}
+              style={styles.btn}
+              onPress={handleSubmit}
             >
-              <Feather name="camera" size={24} color="#BDBDBD" />
+              <Text style={styles.btnTitle}>Publish</Text>
             </TouchableOpacity>
           </View>
-        )}
-        <Text style={styles.text}>Upload a photo</Text>
-        <View style={styles.inputBlock}>
-          <TextInput
-            style={styles.input}
-            value={name}
-            onChangeText={nameHandler}
-            onFocus={chengIsShowKeyboard}
-            placeholder="Name..."
-          />
-          <View style={styles.locationField}>
-            <Feather
-              name="map-pin"
-              size={24}
-              color="#BDBDBD"
-              style={styles.locationIcon}
-            />
-            <TextInput
-              style={{ ...styles.input, ...styles.locationInput }}
-              onChangeText={adressHandler}
-              onFocus={chengIsShowKeyboard}
-              placeholder="Location..."
-              value={adress}
-            />
+          <View style={styles.btnTrashBox}>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={styles.btnTrash}
+              onPress={handleDel}
+            >
+              <Feather name="trash-2" size={24} color="#BDBDBD" />
+            </TouchableOpacity>
           </View>
-        </View>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          style={styles.btn}
-          onPress={handleSubmit}
-        >
-          <Text style={styles.btnTitle}>Publish</Text>
-        </TouchableOpacity>
-        <View style={styles.btnTrashBox}>
-          <TouchableOpacity
-            activeOpacity={0.8}
-            style={styles.btnTrash}
-            onPress={handleDel}
-          >
-            <Feather name="trash-2" size={24} color="#BDBDBD" />
-          </TouchableOpacity>
-        </View>
-      </KeyboardAvoidingView>
-    </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
+    </>
   );
 };
 

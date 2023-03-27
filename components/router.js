@@ -1,12 +1,10 @@
-import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Registr from "../Screens/Registration";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { selectUser } from "../redux/auth/selectors";
 import Comments from "../Screens/Comments/Comments";
-import { refresh } from "../redux/auth/operations";
 import Login from "../Screens/Login";
-import React, { useEffect } from "react";
+import React from "react";
 import Map from "../Screens/Map/Map";
 import Home from "../Screens/Home";
 
@@ -50,7 +48,6 @@ const PrivateNavigator = () => {
             fontSize: 17,
             color: "#212121",
           },
-          // headerStatusBarHeight: 44,
           headerTitleAlign: "center",
         }}
       >
@@ -70,20 +67,8 @@ const PrivateNavigator = () => {
 };
 
 const Router = () => {
-  const dispatch = useDispatch();
   const { userId } = useSelector(selectUser);
-  const state = useSelector((state) => state);
-
-  useEffect(() => {
-    dispatch(refresh());
-  }, [dispatch]);
-
-  console.log(state);
-  return (
-    <NavigationContainer>
-      {userId ? <PrivateNavigator /> : <PublicNavigator />}
-    </NavigationContainer>
-  );
+  return <>{userId ? <PrivateNavigator /> : <PublicNavigator />}</>;
 };
 
 export default Router;

@@ -16,8 +16,8 @@ export const signup = createAsyncThunk(
       await updateProfile(auth.currentUser, { displayName, photoURL });
       const { uid } = auth.currentUser;
       return { userId: uid, nickName: displayName, email, photoURL };
-    } catch ({ response }) {
-      return rejectWithValue(response);
+    } catch ({ message }) {
+      return rejectWithValue(message);
     }
   }
 );
@@ -29,8 +29,8 @@ export const signin = createAsyncThunk(
       await signInWithEmailAndPassword(auth, email, password);
       const { uid, displayName, photoURL } = auth.currentUser;
       return { userId: uid, nickName: displayName, email, photoURL };
-    } catch ({ response }) {
-      return rejectWithValue(response);
+    } catch ({ message }) {
+      return rejectWithValue(message);
     }
   }
 );
@@ -40,8 +40,8 @@ export const signout = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       await signOut(auth);
-    } catch ({ response }) {
-      return rejectWithValue(response);
+    } catch ({ message }) {
+      return rejectWithValue(message);
     }
   }
 );
@@ -60,8 +60,8 @@ export const refresh = createAsyncThunk(
           }
         });
       });
-    } catch ({ response }) {
-      return rejectWithValue(response);
+    } catch ({ message }) {
+      return rejectWithValue(message);
     }
   }
 );

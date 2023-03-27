@@ -18,8 +18,8 @@ export const sendPhoto = createAsyncThunk(
       await uploadBytes(storageRef, file);
       const url = await getDownloadURL(ref(storage, path));
       return url;
-    } catch ({ response }) {
-      return rejectWithValue(response);
+    } catch ({ message }) {
+      return rejectWithValue(message);
     }
   }
 );
@@ -34,8 +34,8 @@ export const updateAvatar = createAsyncThunk(
       await uploadBytes(storageRef, file);
       const url = await getDownloadURL(ref(storage, path));
       await updateProfile(auth.currentUser, { photoURL: url });
-    } catch ({ response }) {
-      return rejectWithValue(response);
+    } catch ({ message }) {
+      return rejectWithValue(message);
     }
   }
 );
@@ -46,8 +46,8 @@ export const delPhoto = createAsyncThunk(
     try {
       const desertRef = ref(storage, uri);
       await deleteObject(desertRef);
-    } catch ({ response }) {
-      return rejectWithValue(response);
+    } catch ({ message }) {
+      return rejectWithValue(message);
     }
   }
 );

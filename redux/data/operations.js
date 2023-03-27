@@ -23,8 +23,8 @@ export const createPost = createAsyncThunk(
         coordinate,
         likes: [],
       });
-    } catch ({ response }) {
-      return rejectWithValue(response);
+    } catch ({ message }) {
+      return rejectWithValue(message);
     }
   }
 );
@@ -38,8 +38,8 @@ export const getPosts = createAsyncThunk(
         postId: doc.id,
         ...doc.data(),
       }));
-    } catch ({ response }) {
-      return rejectWithValue(response);
+    } catch ({ message }) {
+      return rejectWithValue(message);
     }
   }
 );
@@ -58,8 +58,8 @@ export const createComment = createAsyncThunk(
         comment,
         timeStamp,
       });
-    } catch ({ response }) {
-      return rejectWithValue(response);
+    } catch ({ message }) {
+      return rejectWithValue(message);
     }
   }
 );
@@ -74,8 +74,8 @@ export const getComments = createAsyncThunk(
         comentId: doc.id,
         ...doc.data(),
       }));
-    } catch ({ response }) {
-      return rejectWithValue(response);
+    } catch ({ message }) {
+      return rejectWithValue(message);
     }
   }
 );
@@ -86,8 +86,8 @@ export const addLike = createAsyncThunk(
     try {
       const postRef = doc(db, "posts", postId);
       await updateDoc(postRef, { likes: arrayUnion(userId) });
-    } catch ({ response }) {
-      return rejectWithValue(response);
+    } catch ({ message }) {
+      return rejectWithValue(message);
     }
   }
 );

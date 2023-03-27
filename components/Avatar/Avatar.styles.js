@@ -28,9 +28,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderWidth: 1,
-    // borderColor: "#FF6C00",
     borderRadius: 50,
     zIndex: 2,
-  },});
+  },
+});
 
 export default styles;

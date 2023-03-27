@@ -26,7 +26,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#FFFFFF",
   },
-
   text: {
     color: "#BDBDBD",
     textAlign: "left",
@@ -38,7 +37,6 @@ const styles = StyleSheet.create({
     marginVertical: 32,
     gap: 16,
   },
-
   input: {
     width: "100%",
     borderBottomWidth: 1,
@@ -51,18 +49,15 @@ const styles = StyleSheet.create({
   locationInput: {
     paddingLeft: 28,
   },
-
   locationField: {
     justifyContent: "center",
     alignItems: "flex-start",
   },
-
   locationIcon: {
     position: "absolute",
     left: 0,
     marginRight: 4,
   },
-
   btn: {
     backgroundColor: "#FF6C00",
     borderRadius: 100,
@@ -76,7 +71,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 19,
   },
-
   btnTrashBox: {
     position: "absolute",
     width: "100%",
@@ -84,7 +78,6 @@ const styles = StyleSheet.create({
     left: 15,
     alignItems: "center",
   },
-
   btnTrash: {
     width: 70,
     height: 40,

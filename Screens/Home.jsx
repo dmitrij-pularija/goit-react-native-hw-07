@@ -60,7 +60,6 @@ const Home = ({ navigation }) => {
             fontSize: 17,
             color: "#212121",
           },
-          // headerStatusBarHeight: 44,
           headerTitleAlign: "center",
         }}
       >

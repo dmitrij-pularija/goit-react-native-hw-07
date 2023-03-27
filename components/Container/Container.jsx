@@ -1,10 +1,4 @@
-import {
-  View,
-  ImageBackground,
-  Dimensions,
-  ScrollView,
-  SafeAreaView,
-} from "react-native";
+import { View, ImageBackground, ScrollView } from "react-native";
 import styles from "./Container.styles.js";
 
 const Container = ({ children }) => {

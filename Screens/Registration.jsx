@@ -1,46 +1,43 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
 import Container from "../components/Container/Container";
 import Avatar from "../components/Avatar/Avatar";
+import Loader from "../components/Loader";
+import { useKeyboard } from "../services/hooks";
 import styles from "../components/AuthForm/AuthForm.styles";
 import AuthForm from "../components/AuthForm/AuthForm";
-import { setIsShowKeyboard } from "../redux/prestate/slice";
-import { selectPrestate } from "../redux/prestate/selectors";
 import {
-  Text,
   Platform,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
+  Animated,
 } from "react-native";
 
 const Registr = ({ navigation }) => {
-  const dispatch = useDispatch();
-
-  const keyboardHide = () => {
-    Keyboard.dismiss();
-    dispatch(setIsShowKeyboard(false));
-  };
-  const { isShowKeyboard } = useSelector(selectPrestate);
+  const { marginСompensator } = useKeyboard(78);
+  const keyboardHide = () => Keyboard.dismiss();
 
   return (
-    <TouchableWithoutFeedback onPress={keyboardHide}>
+    <>
+      <Loader />
       <KeyboardAvoidingView
-        style={{ flex: 1 }}
+        style={styles.keyboard}
         behavior={Platform.OS == "ios" ? "padding" : "height"}
       >
-        <Container>
-          <Avatar />
-          <AuthForm type={"registr"} />
-          <Text
-            style={{ ...styles.limk, marginBottom: isShowKeyboard ? 0 : 78 }}
-            onPress={() => navigation.navigate("Login")}
-          >
-            Already have an account? Sign In
-          </Text>
-        </Container>
+        <TouchableWithoutFeedback onPress={keyboardHide}>
+          <Container>
+            <Avatar />
+            <AuthForm type={"registr"} />
+            <Animated.Text
+              style={{ ...styles.link, ...marginСompensator }}
+              onPress={() => navigation.navigate("Login")}
+            >
+              Already have an account? Sign In
+            </Animated.Text>
+          </Container>
+        </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
-    </TouchableWithoutFeedback>
+    </>
   );
 };
 

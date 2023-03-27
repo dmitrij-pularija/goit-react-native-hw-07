@@ -1,6 +1,10 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
+  keyboard: {
+    flex: 1,
+    width: "100%",
+  },
   form: {
     width: "100%",
   },
@@ -53,7 +57,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     lineHeight: 19,
   },
-  limk: {
+  link: {
     marginTop: 16,
     textAlign: "center",
     fontSize: 16,

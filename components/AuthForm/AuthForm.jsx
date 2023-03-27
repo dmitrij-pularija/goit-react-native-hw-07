@@ -4,7 +4,6 @@ import { signup, signin } from "../../redux/auth/operations";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../../redux/auth/selectors";
 import { selectPrestate } from "../../redux/prestate/selectors";
-import { setIsShowKeyboard } from "../../redux/prestate/slice";
 import { Text, View, TextInput, TouchableOpacity } from "react-native";
 import styles from "./AuthForm.styles";
 import {
@@ -21,10 +20,8 @@ const AuthForm = ({ type }) => {
   const { uri } = useSelector(selectPrestate);
 
   const chengHidePassword = () => setHidePassword(!hidePassword);
-  const handleFocus = () => dispatch(setIsShowKeyboard(true));
 
   const submitForm = (values, { resetForm }) => {
-    dispatch(setIsShowKeyboard(false));
     if (type === "auth") dispatch(signin(values));
     else dispatch(signup({ ...values, photoURL: uri }));
     userId && resetForm();
@@ -59,7 +56,6 @@ const AuthForm = ({ type }) => {
                 <TextInput
                   style={styles.input}
                   value={displayName}
-                  onFocus={handleFocus}
                   onChangeText={handleChange("displayName")}
                   onBlur={handleBlur("displayName")}
                   placeholder="Login"
@@ -73,7 +69,6 @@ const AuthForm = ({ type }) => {
             <TextInput
               style={styles.input}
               value={email}
-              onFocus={handleFocus}
               onChangeText={handleChange("email")}
               onBlur={handleBlur("email")}
               placeholder="E-mail address"
@@ -87,7 +82,6 @@ const AuthForm = ({ type }) => {
                 style={styles.input}
                 secureTextEntry={hidePassword}
                 value={password}
-                onFocus={handleFocus}
                 onChangeText={handleChange("password")}
                 onBlur={handleBlur("password")}
                 placeholder="Password"

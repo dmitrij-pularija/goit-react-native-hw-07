@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Feather } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
 import { selectUser } from "../../redux/auth/selectors";
+import { selectIsLoading } from "../../redux/prestate/selectors";
 import { selectComments } from "../../redux/data/selectors";
 import { createComment, getComments } from "../../redux/data/operations";
 import {
@@ -11,10 +12,11 @@ import {
   Text,
   Image,
   Alert,
+  Keyboard,
   FlatList,
   TextInput,
   TouchableOpacity,
-  SafeAreaView,
+  RefreshControl,
 } from "react-native";
 import styles from "./Comments.styles.js";
 
@@ -29,6 +31,7 @@ const Comments = ({
   const user = useSelector(selectUser);
   const commentHandler = (value) => setComment(value);
   const handleSend = () => {
+    Keyboard.dismiss();
     if (comment.length < 5)
       return Alert.alert("Please enter a comment with at least 5 characters");
     const currentDate = Moment().format("DD.MM.YYYY");
@@ -46,6 +49,12 @@ const Comments = ({
     setComment("");
     dispatch(getComments());
   };
+
+  const onRefresh = () => {
+    setComment("");
+    dispatch(getComments());
+  };
+  const isLoading = useSelector(selectIsLoading);
   const comments = useSelector(selectComments);
   const commentsFiltred = comments.filter(
     (comment) => comment.postId === postId
@@ -56,43 +65,51 @@ const Comments = ({
       <View style={styles.imageBox}>
         <Image style={styles.image} source={{ uri }} />
       </View>
-      <SafeAreaView style={styles.container}>
-        <FlatList
-          style={styles.list}
-          data={commentsFiltred}
-          renderItem={({ item }) => (
-            <View
-              style={{
-                ...styles.item,
-                flexDirection:
-                  item.userId === user.userId ? "row-reverse" : "row",
-              }}
-            >
-              <View style={styles.avatarBox}>
-                <Image style={styles.avatar} source={{ uri: item.photoURL }} />
-              </View>
-              <View
-                style={
-                  item.userId === user.userId
-                    ? styles.ownerComment
-                    : styles.guestComment
-                }
-              >
-                <Text style={styles.coment}>{item.comment}</Text>
-                <Text
-                  style={{
-                    ...styles.data,
-                    textAlign: item.userId === user.userId ? "left" : "right",
-                  }}
-                >
-                  {item.timeStamp}
-                </Text>
-              </View>
+      <FlatList
+        style={styles.list}
+        data={commentsFiltred}
+        keyExtractor={(item) => item.comentId}
+        refreshControl={
+          <RefreshControl
+            refreshing={isLoading}
+            onRefresh={onRefresh}
+            tintColor={"#FF6C00"}
+            progressBackgroundColor={"inherit"}
+            colors={["#FF6C00"]}
+          />
+        }
+        renderItem={({ item }) => (
+          <View
+            style={{
+              ...styles.item,
+              flexDirection:
+                item.userId === user.userId ? "row-reverse" : "row",
+            }}
+          >
+            <View style={styles.avatarBox}>
+              <Image style={styles.avatar} source={{ uri: item.photoURL }} />
             </View>
-          )}
-          keyExtractor={(item) => item.comentId}
-        />
-      </SafeAreaView>
+            <View
+              style={
+                item.userId === user.userId
+                  ? styles.ownerComment
+                  : styles.guestComment
+              }
+            >
+              <Text style={styles.coment}>{item.comment}</Text>
+              <Text
+                style={{
+                  ...styles.data,
+                  textAlign: item.userId === user.userId ? "left" : "right",
+                }}
+              >
+                {item.timeStamp}
+              </Text>
+            </View>
+          </View>
+        )}
+      />
+
       <View style={styles.inputBox}>
         <TextInput
           style={styles.input}

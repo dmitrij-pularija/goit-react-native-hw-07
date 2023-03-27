@@ -34,7 +34,8 @@ export const initialData = {
 
 export const initialPrestate = {
   uri: null,
-  isShowKeyboard: false,
+  isLoading: false,
+  error: null,
 };
 
 export const initialLogin = {
