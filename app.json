@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "goit-react-native-hw-06",
-    "slug": "goit-react-native-hw-06",
+    "name": "goit-react-native-hw-07",
+    "slug": "goit-react-native-hw-07",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -11,9 +11,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
@@ -32,12 +30,17 @@
         {
           "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera."
         }
-        
       ],
       [
         "expo-image-picker",
         {
           "photosPermission": "The app accesses your photos to let you share them with your friends."
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
         }
       ]
     ]
