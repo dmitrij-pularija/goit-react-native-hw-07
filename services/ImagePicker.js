@@ -65,7 +65,8 @@ handleImagePicked = ({ canceled, assets, type, photoURL }, dispatch) => {
   } else {
     const path = `${type}/img${Date.now().toString()}.jpg`;
     const { uri } = assets[0];
-    if (!photoURL && type === "avatars") dispatch(updateAvatar({ uri, path }));
+    if (!photoURL && type === "avatars")
+      return dispatch(sendPhoto({ uri, path }));
     if (photoURL && type === "avatars") {
       dispatch(updateAvatar({ uri, path }));
       dispatch(delPhoto(photoURL));

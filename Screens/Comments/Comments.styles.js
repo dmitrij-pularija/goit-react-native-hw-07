@@ -8,6 +8,9 @@ const styles = StyleSheet.create({
     fontFamily: "Roboto-Regular",
     justifyContent: "space-between",
   },
+  keyboard: {
+    flex: 1,
+  },
   imageBox: {
     width: "100%",
     height: 240,
@@ -78,7 +81,6 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
-    marginBottom: 16,
   },
   input: {
     width: "100%",
