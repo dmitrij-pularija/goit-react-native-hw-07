@@ -8,7 +8,6 @@ import { useFont } from "./services/hooks";
 
 const App = () => {
   const isReady = useFont();
-
   if (isReady) {
     return (
       <Provider store={store}>
